@@ -1,11 +1,11 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
+from sign.models import Event
 
 # Create your views here.
+
 
 def index(request):
     return render(request, "index.html")
@@ -27,5 +27,7 @@ def login_action(request):
 @login_required
 def event_manage(request):
     # username = request.COOKIES.get('user', '')  # 读取浏览器cookie
+    event_list = Event.objects.all()
     username = request.session.get('user', '')
-    return render(request, "event_manage.html", {"user": username})
+    return render(request, "event_manage.html", {"user": username,"events":event_list})
+
